@@ -3,8 +3,11 @@ import { ajax } from 'rxjs/ajax';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { IDiscovery } from '../../types/movies';
-import { IDiscoveryResponse } from '../../types/api';
+import { ITopRated } from '../../types/movies';
+import { ITopRatedResponse } from '../../types/api';
+
+const qs = { stringify: (obj) => new URLSearchParams(obj).toString() };
+type TMoviePage = Observable<ITopRated[]>;
 
 @Component({
   selector: 'app-discover-movies',
@@ -12,13 +15,24 @@ import { IDiscoveryResponse } from '../../types/api';
   styleUrls: ['./discover-movies.component.scss']
 })
 export class DiscoverMoviesComponent implements OnInit {
-  MAX_ITEMS = 10;
-  movies$: Observable<IDiscovery[]>;
-
-  constructor() { }
+  moviePages: TMoviePage[] = [];
+  page = 1;
 
   ngOnInit(): void {
-    this.movies$ = ajax.getJSON(`${env.apiUrl}/discover/movie`)
-      .pipe(map((data: IDiscoveryResponse) => data.results.slice(0, this.MAX_ITEMS)));
+    this.download();
   }
+
+  download() {
+    this.moviePages.push(
+      ajax.getJSON(`${env.apiUrl}/movie/top_rated?` + qs.stringify({
+        sort_by: 'release_date',
+        page: this.page
+      })).pipe(map((data: ITopRatedResponse) => data.results))
+    );
+  }
+
+  onShowMoreClick = () => {
+    this.page++;
+    this.download();
+  };
 }

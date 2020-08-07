@@ -1,4 +1,4 @@
-import { IDiscovery } from './movies';
+import { IDiscovery, ITopRated } from './movies';
 
 export interface IApiResponse {
   page: number;
@@ -9,4 +9,8 @@ export interface IApiResponse {
 
 export interface IDiscoveryResponse extends IApiResponse {
   results: IDiscovery[];
+}
+
+export interface ITopRatedResponse extends IApiResponse {
+  results: ITopRated[];
 }
