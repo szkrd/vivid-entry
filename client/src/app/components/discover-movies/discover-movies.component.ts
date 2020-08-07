@@ -24,8 +24,9 @@ export class DiscoverMoviesComponent implements OnInit {
 
   download() {
     this.moviePages.push(
-      ajax.getJSON(`${env.apiUrl}/movie/top_rated?` + qs.stringify({
-        sort_by: 'release_date',
+      ajax.getJSON(`${env.apiUrl}/discover/movie?` + qs.stringify({
+        sort_by: 'release_date.desc',
+        'release_date.lte': (new Date()).toISOString().substr(0, 10),
         page: this.page
       })).pipe(map((data: ITopRatedResponse) => data.results))
     );

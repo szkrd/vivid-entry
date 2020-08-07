@@ -17,7 +17,7 @@ export class TopRatedComponent implements OnInit {
   movies$: Observable<IDiscovery[]>;
 
   ngOnInit(): void {
-    this.movies$ = ajax.getJSON(`${env.apiUrl}/discover/movie`)
+    this.movies$ = ajax.getJSON(`${env.apiUrl}/movie/top_rated`)
       .pipe(map((data: IDiscoveryResponse) => data.results.slice(0, this.MAX_ITEMS)));
   }
 }
