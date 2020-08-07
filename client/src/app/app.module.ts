@@ -9,6 +9,7 @@ import { AddToWatchlistComponent } from './components/add-to-watchlist/add-to-wa
 import { WatchlistLinkComponent } from './components/watchlist-link/watchlist-link.component';
 import { OverviewPageComponent } from './components/overview-page/overview-page.component';
 import { WatchlistPageComponent } from './components/watchlist-page/watchlist-page.component';
+import { MovieDetailsPageComponent } from './components/movie-details-page/movie-details-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { WatchlistPageComponent } from './components/watchlist-page/watchlist-pa
     AddToWatchlistComponent,
     WatchlistLinkComponent,
     OverviewPageComponent,
-    WatchlistPageComponent
+    WatchlistPageComponent,
+    MovieDetailsPageComponent
   ],
   imports: [
     BrowserModule,

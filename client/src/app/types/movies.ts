@@ -31,3 +31,21 @@ export interface ITopRated {
   video?: boolean;
   vote_average?: number;
 }
+
+export interface IReview {
+  id?: string;
+  author?: string;
+  content?: string;
+  url?: string;
+}
+
+// partial
+export interface IDetails {
+  id?: number;
+  title?: string;
+  runtime?: number;
+  popularity?: number; // rating?
+  vote_average?: number;
+  overview?: string; // description?
+  tagline?: string;
+}
