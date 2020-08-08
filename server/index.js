@@ -1,14 +1,14 @@
 require('dotenv').config()
 const https = require('http')
+const chalk = require('chalk')
 const httpProxy = require('http-proxy')
-
+const target = process.env.TARGET || 'https://api.themoviedb.org/'
 const token = process.env.ACCESS_TOKEN
 if (!token || token.length < 128) {
   console.error('Invalid or missing ACCESS_TOKEN env var!')
   process.exit(1)
 }
 
-// cors + insecure (https triggers EPROTO error)
 const proxy = httpProxy.createProxyServer({
   changeOrigin: true,
   requireHeader: ['origin', 'x-requested-with'],
@@ -19,12 +19,12 @@ const proxy = httpProxy.createProxyServer({
   rejectUnauthorized: false,
 })
 proxy.on('proxyReq', (proxyReq, req, res, options) => {
+  console.info(req.method + ' ' + chalk.gray(req.url))
   proxyReq.setHeader('Authorization', `Bearer ${token}`)
   proxyReq.setHeader('Content-Type', 'application/json;charset=utf-8')
   req.on('error', (err) => console.error(err))
 })
 
-const target = 'https://api.themoviedb.org/'
 const server = https.createServer((req, res) => {
   proxy.web(req, res, { target })
 })

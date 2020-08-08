@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "dev": "nodemon -w . index.js",
+    "prettify": "prettier --write index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,8 @@
     "http-proxy": "1.18.1"
   },
   "devDependencies": {
+    "chalk": "4.1.0",
+    "nodemon": "2.0.4",
     "prettier": "2.0.5"
   }
 }
