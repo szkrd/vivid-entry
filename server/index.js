@@ -2,6 +2,8 @@ require('dotenv').config()
 const https = require('http')
 const chalk = require('chalk')
 const httpProxy = require('http-proxy')
+
+const port = parseInt(process.env.PORT, 10) || 5050
 const target = process.env.TARGET || 'https://api.themoviedb.org/'
 const token = process.env.ACCESS_TOKEN
 if (!token || token.length < 128) {
@@ -9,6 +11,7 @@ if (!token || token.length < 128) {
   process.exit(1)
 }
 
+const printError = (err) => console.error(chalk.red('Proxy error:'), err instanceof Error ? err.message : err)
 const proxy = httpProxy.createProxyServer({
   changeOrigin: true,
   requireHeader: ['origin', 'x-requested-with'],
@@ -18,17 +21,18 @@ const proxy = httpProxy.createProxyServer({
   secure: false,
   rejectUnauthorized: false,
 })
-proxy.on('proxyReq', (proxyReq, req, res, options) => {
-  console.info(req.method + ' ' + chalk.gray(req.url))
-  proxyReq.setHeader('Authorization', `Bearer ${token}`)
-  proxyReq.setHeader('Content-Type', 'application/json;charset=utf-8')
-  req.on('error', (err) => console.error(err))
-})
+proxy
+  .on('proxyReq', (proxyReq, req, res, options) => {
+    console.info(chalk.cyan(req.method) + ' ' + chalk.gray(req.url))
+    proxyReq.setHeader('Authorization', `Bearer ${token}`)
+    proxyReq.setHeader('Content-Type', 'application/json;charset=utf-8')
+    req.on('error', printError)
+  })
+  .on('error', printError)
 
-const server = https.createServer((req, res) => {
-  proxy.web(req, res, { target })
-})
-
-const port = parseInt(process.env.PORT, 10) || 5050
-console.info(`Proxy target is "${target}";\nlistening on port ${port}`)
-server.listen(port)
+console.info(chalk.green(`Proxy target is "${target}";\nlistening on port ${port}\n`))
+https
+  .createServer((req, res) => {
+    proxy.web(req, res, { target })
+  })
+  .listen(port)
