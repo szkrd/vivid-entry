@@ -18,3 +18,9 @@ export interface ICrew {
   name?: string;
   profile_path?: string | null;
 }
+
+export interface ICredits {
+  id?: number;
+  cast: ICast[];
+  crew: ICrew[];
+}

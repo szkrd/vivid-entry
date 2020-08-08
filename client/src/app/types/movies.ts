@@ -44,8 +44,8 @@ export interface IDetails {
   id?: number;
   title?: string;
   runtime?: number;
-  popularity?: number; // rating?
+  popularity?: number;
   vote_average?: number;
-  overview?: string; // description?
-  tagline?: string;
+  vote_count?: number;
+  overview?: string;
 }

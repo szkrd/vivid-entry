@@ -74962,190 +74962,6 @@ const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["Version"]('10.0.
 
 /***/ }),
 
-/***/ "./node_modules/querystring/decode.js":
-/*!********************************************!*\
-  !*** ./node_modules/querystring/decode.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (Array.isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/querystring/encode.js":
-/*!********************************************!*\
-  !*** ./node_modules/querystring/encode.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return Object.keys(obj).map(function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (Array.isArray(obj[k])) {
-        return obj[k].map(function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/querystring/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/querystring/index.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.decode = exports.parse = __webpack_require__(/*! ./decode */ "./node_modules/querystring/decode.js");
-exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ "./node_modules/querystring/encode.js");
-
-
-/***/ }),
-
 /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html":
 /*!**************************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html ***!
@@ -75155,7 +74971,33 @@ exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ "./node
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"app-component\">\n  <h1>Film DB App</h1>\n  <app-discover-movies></app-discover-movies>\n  <app-top-rated></app-top-rated>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"app-component\">\n  <app-watchlist-link></app-watchlist-link>\n  <router-outlet></router-outlet>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/add-to-watchlist/add-to-watchlist.component.html":
+/*!*******************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/add-to-watchlist/add-to-watchlist.component.html ***!
+  \*******************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"add-to-watchlist\">\n  <button (click)=\"onClick()\">\n    {{isAdded ? 'Remove from watchlist' : 'Add to watchlist'}}\n  </button>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/cast-and-crew/cast-and-crew.component.html":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/cast-and-crew/cast-and-crew.component.html ***!
+  \*************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"cast-and-crew-component\">\n  <div *ngIf=\"credit$ | async as credits\">\n    <h2>Cast</h2>\n    <ul>\n      <li *ngFor=\"let member of credits.cast.slice(0, maxShown)\">\n        <p>\n          <strong>{{member.character || 'unspecified'}}</strong> - {{member.name}}\n        </p>\n      </li>\n    </ul>\n    <p *ngIf=\"credits.cast.length > maxShown && maxShown !== -1\">\n      <button (click)=\"maxShown = -1\">\n        Show all {{credits.cast.length}}\n      </button>\n    </p>\n  </div>\n</div>\n");
 
 /***/ }),
 
@@ -75168,7 +75010,46 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"discover-movies-component\">\n  <h2>Discover movies</h2>\n  <ul>\n    <li *ngFor=\"let movie of movies$ | async\">\n      <a href=\"#\">{{movie.title}}</a>\n    </li>\n  </ul>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"discover-movies-component\">\n  <h2>Discover movies</h2>\n  <ul>\n    <li *ngFor=\"let moviePage$ of moviePages\" class=\"page\">\n      <ul>\n        <li *ngFor=\"let movie of moviePage$ | async\" class=\"row\">\n          <a [routerLink]=\"['/movie', movie.id]\">\n            {{movie.release_date}}\n            {{movie.title}}\n          </a>\n          <app-add-to-watchlist [movieId]=\"movie.id\"></app-add-to-watchlist>\n        </li>\n      </ul>\n    </li>\n    <li>\n      <button (click)=\"onShowMoreClick()\">Show more</button>\n    </li>\n  </ul>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/movie-details-page/movie-details-page.component.html":
+/*!***********************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/movie-details-page/movie-details-page.component.html ***!
+  \***********************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"movie-details-page-component\">\n  <div *ngIf=\"details$ | async as details\">\n    <h1>{{details.title}}</h1>\n    <aside>{{details.overview}}</aside>\n    <p *ngIf=\"details.vote_count > 0\">\n      <strong>Score:</strong>\n      <span *ngFor=\"let i of details.vote_average | ngForNumber\">⭐</span>\n      <span>10 / {{details.vote_average}}</span>\n    </p>\n  </div>\n  <div *ngIf=\"id\">\n    <app-cast-and-crew [movieId]=\"id\"></app-cast-and-crew>\n    <app-reviews [movieId]=\"id\"></app-reviews>\n  </div>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/overview-page/overview-page.component.html":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/overview-page/overview-page.component.html ***!
+  \*************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"overview-page-component\">\n  <h1>Film DB App</h1>\n  <app-top-rated></app-top-rated>\n  <app-discover-movies></app-discover-movies>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/reviews/reviews.component.html":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/reviews/reviews.component.html ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"reviews-component\">\n  <h2>Reviews</h2>\n  <p *ngIf=\"reviews$\">This movie has no reviews yet.</p>\n  <ul>\n    <li *ngFor=\"let review of reviews$ | async\">\n      <h3>\n        {{review.author}}\n      </h3>\n      <p>\n        {{review.content | textEllipsis:[500]}}\n        <a href=\"{{review.url}}\" *ngIf=\"review.url\" target=\"_blank\" title=\"Read all\">🔗</a>\n      </p>\n    </li>\n  </ul>\n</div>\n");
 
 /***/ }),
 
@@ -75181,7 +75062,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"top-rated-component\">\n  <ul>\n    <li *ngFor=\"let movie of movies$ | async\">\n      <a href=\"#\">\n        {{movie.release_date}}\n        {{movie.title}}\n      </a>\n    </li>\n    <li>\n      <button (click)=\"onShowMoreClick()\">Show more</button>\n    </li>\n  </ul>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"top-rated-component\">\n  <h2>Top movies of all time</h2>\n  <ul>\n    <li *ngFor=\"let movie of movies$ | async\">\n      <a [routerLink]=\"['/movie', movie.id]\">\n        {{movie.title}}\n      </a>\n    </li>\n  </ul>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-link/watchlist-link.component.html":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-link/watchlist-link.component.html ***!
+  \***************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"watchlist-link-component\">\n  <a href=\"#\" routerLink=\"/watchlist\">\n    My watchlist\n    <span *ngIf=\"count | async\">\n      ({{count | async}})\n    </span>\n  </a>\n</div>\n");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-page/watchlist-page.component.html":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-page/watchlist-page.component.html ***!
+  \***************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"watchlist-page-component\">\n  <h1>NYI :(</h1>\n  <p>\n    Technically the user <em>can</em> save a watchlist...\n  </p>\n</div>\n");
 
 /***/ }),
 
@@ -86986,10 +86893,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var _components_overview_page_overview_page_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/overview-page/overview-page.component */ "./src/app/components/overview-page/overview-page.component.ts");
+/* harmony import */ var _components_watchlist_page_watchlist_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/watchlist-page/watchlist-page.component */ "./src/app/components/watchlist-page/watchlist-page.component.ts");
+/* harmony import */ var _components_movie_details_page_movie_details_page_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/movie-details-page/movie-details-page.component */ "./src/app/components/movie-details-page/movie-details-page.component.ts");
 
 
 
-const routes = [];
+
+
+
+const routes = [
+    { path: '', component: _components_overview_page_overview_page_component__WEBPACK_IMPORTED_MODULE_3__["OverviewPageComponent"] },
+    { path: 'movie/:id', component: _components_movie_details_page_movie_details_page_component__WEBPACK_IMPORTED_MODULE_5__["MovieDetailsPageComponent"] },
+    { path: 'watchlist', component: _components_watchlist_page_watchlist_page_component__WEBPACK_IMPORTED_MODULE_4__["WatchlistPageComponent"] },
+    { path: '*', component: _components_overview_page_overview_page_component__WEBPACK_IMPORTED_MODULE_3__["OverviewPageComponent"] }
+];
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
@@ -87012,7 +86930,7 @@ AppRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("");
+/* harmony default export */ __webpack_exports__["default"] = (".app-component {\n  padding: 5px 10px 10px 10px;\n  min-width: 320px;\n  max-width: 1000px;\n  margin: 0 auto;\n  background-color: #fff;\n  box-shadow: 0 0 45px rgba(0, 0, 0, 0.2);\n  min-height: calc(100% - 15px);\n}");
 
 /***/ }),
 
@@ -87064,6 +86982,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _components_discover_movies_discover_movies_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/discover-movies/discover-movies.component */ "./src/app/components/discover-movies/discover-movies.component.ts");
 /* harmony import */ var _components_top_rated_top_rated_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/top-rated/top-rated.component */ "./src/app/components/top-rated/top-rated.component.ts");
+/* harmony import */ var _components_add_to_watchlist_add_to_watchlist_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/add-to-watchlist/add-to-watchlist.component */ "./src/app/components/add-to-watchlist/add-to-watchlist.component.ts");
+/* harmony import */ var _components_watchlist_link_watchlist_link_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/watchlist-link/watchlist-link.component */ "./src/app/components/watchlist-link/watchlist-link.component.ts");
+/* harmony import */ var _components_overview_page_overview_page_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/overview-page/overview-page.component */ "./src/app/components/overview-page/overview-page.component.ts");
+/* harmony import */ var _components_watchlist_page_watchlist_page_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/watchlist-page/watchlist-page.component */ "./src/app/components/watchlist-page/watchlist-page.component.ts");
+/* harmony import */ var _components_movie_details_page_movie_details_page_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/movie-details-page/movie-details-page.component */ "./src/app/components/movie-details-page/movie-details-page.component.ts");
+/* harmony import */ var _pipes_ng_for_number_pipe__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pipes/ng-for-number.pipe */ "./src/app/pipes/ng-for-number.pipe.ts");
+/* harmony import */ var _components_cast_and_crew_cast_and_crew_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/cast-and-crew/cast-and-crew.component */ "./src/app/components/cast-and-crew/cast-and-crew.component.ts");
+/* harmony import */ var _components_reviews_reviews_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/reviews/reviews.component */ "./src/app/components/reviews/reviews.component.ts");
+/* harmony import */ var _pipes_text_ellipsis_pipe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pipes/text-ellipsis.pipe */ "./src/app/pipes/text-ellipsis.pipe.ts");
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87078,7 +87014,16 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         declarations: [
             _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
             _components_discover_movies_discover_movies_component__WEBPACK_IMPORTED_MODULE_5__["DiscoverMoviesComponent"],
-            _components_top_rated_top_rated_component__WEBPACK_IMPORTED_MODULE_6__["TopRatedComponent"]
+            _components_top_rated_top_rated_component__WEBPACK_IMPORTED_MODULE_6__["TopRatedComponent"],
+            _components_add_to_watchlist_add_to_watchlist_component__WEBPACK_IMPORTED_MODULE_7__["AddToWatchlistComponent"],
+            _components_watchlist_link_watchlist_link_component__WEBPACK_IMPORTED_MODULE_8__["WatchlistLinkComponent"],
+            _components_overview_page_overview_page_component__WEBPACK_IMPORTED_MODULE_9__["OverviewPageComponent"],
+            _components_watchlist_page_watchlist_page_component__WEBPACK_IMPORTED_MODULE_10__["WatchlistPageComponent"],
+            _components_movie_details_page_movie_details_page_component__WEBPACK_IMPORTED_MODULE_11__["MovieDetailsPageComponent"],
+            _pipes_ng_for_number_pipe__WEBPACK_IMPORTED_MODULE_12__["NgForNumberPipe"],
+            _components_cast_and_crew_cast_and_crew_component__WEBPACK_IMPORTED_MODULE_13__["CastAndCrewComponent"],
+            _components_reviews_reviews_component__WEBPACK_IMPORTED_MODULE_14__["ReviewsComponent"],
+            _pipes_text_ellipsis_pipe__WEBPACK_IMPORTED_MODULE_15__["TextEllipsisPipe"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -87093,6 +87038,128 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
+/***/ "./src/app/components/add-to-watchlist/add-to-watchlist.component.scss":
+/*!*****************************************************************************!*\
+  !*** ./src/app/components/add-to-watchlist/add-to-watchlist.component.scss ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (":host {\n  display: inline-block;\n}");
+
+/***/ }),
+
+/***/ "./src/app/components/add-to-watchlist/add-to-watchlist.component.ts":
+/*!***************************************************************************!*\
+  !*** ./src/app/components/add-to-watchlist/add-to-watchlist.component.ts ***!
+  \***************************************************************************/
+/*! exports provided: AddToWatchlistComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddToWatchlistComponent", function() { return AddToWatchlistComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _services_watchlist_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/watchlist.service */ "./src/app/services/watchlist.service.ts");
+
+
+
+let AddToWatchlistComponent = class AddToWatchlistComponent {
+    constructor(watchlistService) {
+        this.watchlistService = watchlistService;
+        this.isAdded = false;
+        this.onClick = () => {
+            if (this.isAdded) {
+                this.watchlistService.removeFromWatchlist(this.movieId);
+            }
+            else {
+                this.watchlistService.addToWatchlist(this.movieId);
+            }
+        };
+    }
+    ngOnInit() {
+        this.unregisterListener = this.watchlistService
+            .registerListener(this.movieId, (state) => this.isAdded = state);
+    }
+    ngOnDestroy() {
+        this.unregisterListener();
+    }
+};
+AddToWatchlistComponent.ctorParameters = () => [
+    { type: _services_watchlist_service__WEBPACK_IMPORTED_MODULE_2__["WatchlistService"] }
+];
+AddToWatchlistComponent.propDecorators = {
+    movieId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }]
+};
+AddToWatchlistComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-add-to-watchlist',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./add-to-watchlist.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/add-to-watchlist/add-to-watchlist.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./add-to-watchlist.component.scss */ "./src/app/components/add-to-watchlist/add-to-watchlist.component.scss")).default]
+    })
+], AddToWatchlistComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/cast-and-crew/cast-and-crew.component.scss":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/cast-and-crew/cast-and-crew.component.scss ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("");
+
+/***/ }),
+
+/***/ "./src/app/components/cast-and-crew/cast-and-crew.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/cast-and-crew/cast-and-crew.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: CastAndCrewComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CastAndCrewComponent", function() { return CastAndCrewComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/ajax */ "./node_modules/rxjs/_esm2015/ajax/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+
+
+
+
+let CastAndCrewComponent = class CastAndCrewComponent {
+    constructor() {
+        this.maxShown = 10;
+    }
+    ngOnInit() {
+        this.credit$ = rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/movie/${this.movieId}/credits`);
+    }
+};
+CastAndCrewComponent.propDecorators = {
+    movieId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }]
+};
+CastAndCrewComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-cast-and-crew',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./cast-and-crew.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/cast-and-crew/cast-and-crew.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./cast-and-crew.component.scss */ "./src/app/components/cast-and-crew/cast-and-crew.component.scss")).default]
+    })
+], CastAndCrewComponent);
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/discover-movies/discover-movies.component.scss":
 /*!***************************************************************************!*\
   !*** ./src/app/components/discover-movies/discover-movies.component.scss ***!
@@ -87102,7 +87169,7 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("");
+/* harmony default export */ __webpack_exports__["default"] = ("ul, li {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.page {\n  list-style: none;\n  padding: 5px;\n}\n\n.row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%);\n  margin: 5px;\n  border-radius: 5px;\n}\n\n.row a {\n  display: block;\n  padding: 5px;\n}");
 
 /***/ }),
 
@@ -87126,16 +87193,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const qs = { stringify: (obj) => new URLSearchParams(obj).toString() };
 let DiscoverMoviesComponent = class DiscoverMoviesComponent {
     constructor() {
-        this.MAX_ITEMS = 10;
+        this.moviePages = [];
+        this.page = 1;
+        this.onShowMoreClick = () => {
+            this.page++;
+            this.download();
+        };
     }
     ngOnInit() {
-        this.movies$ = rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/discover/movie`)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((data) => data.results.slice(0, this.MAX_ITEMS)));
+        this.download();
+    }
+    download() {
+        this.moviePages.push(rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/discover/movie?` + qs.stringify({
+            sort_by: 'release_date.desc',
+            'release_date.lte': (new Date()).toISOString().substr(0, 10),
+            page: this.page
+        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((data) => data.results)));
     }
 };
-DiscoverMoviesComponent.ctorParameters = () => [];
 DiscoverMoviesComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-discover-movies',
@@ -87143,6 +87221,172 @@ DiscoverMoviesComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"
         styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./discover-movies.component.scss */ "./src/app/components/discover-movies/discover-movies.component.scss")).default]
     })
 ], DiscoverMoviesComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/movie-details-page/movie-details-page.component.scss":
+/*!*********************************************************************************!*\
+  !*** ./src/app/components/movie-details-page/movie-details-page.component.scss ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("h1 {\n  margin: 0;\n  padding: 0 0 20px 0;\n}");
+
+/***/ }),
+
+/***/ "./src/app/components/movie-details-page/movie-details-page.component.ts":
+/*!*******************************************************************************!*\
+  !*** ./src/app/components/movie-details-page/movie-details-page.component.ts ***!
+  \*******************************************************************************/
+/*! exports provided: MovieDetailsPageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovieDetailsPageComponent", function() { return MovieDetailsPageComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var rxjs_ajax__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/ajax */ "./node_modules/rxjs/_esm2015/ajax/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+
+
+
+
+
+let MovieDetailsPageComponent = class MovieDetailsPageComponent {
+    constructor(activatedRoute) {
+        this.activatedRoute = activatedRoute;
+        this.title = '';
+    }
+    ngOnInit() {
+        this.routeChangeSubscription = this.activatedRoute
+            .paramMap
+            .subscribe(params => {
+            const id = this.id = parseInt(params.get('id'), 10) || 0;
+            this.title = `#${id}`;
+            if (this.id) {
+                this.getDetails();
+            }
+        });
+    }
+    ngOnDestroy() {
+        this.routeChangeSubscription.unsubscribe();
+    }
+    getDetails() {
+        this.details$ = rxjs_ajax__WEBPACK_IMPORTED_MODULE_3__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].apiUrl}/movie/${this.id}`);
+    }
+};
+MovieDetailsPageComponent.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }
+];
+MovieDetailsPageComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-movie-details-page',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./movie-details-page.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/movie-details-page/movie-details-page.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./movie-details-page.component.scss */ "./src/app/components/movie-details-page/movie-details-page.component.scss")).default]
+    })
+], MovieDetailsPageComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/overview-page/overview-page.component.scss":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/overview-page/overview-page.component.scss ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("h1 {\n  margin: 0;\n}");
+
+/***/ }),
+
+/***/ "./src/app/components/overview-page/overview-page.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/overview-page/overview-page.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: OverviewPageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OverviewPageComponent", function() { return OverviewPageComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+
+
+let OverviewPageComponent = class OverviewPageComponent {
+};
+OverviewPageComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-overview-page',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./overview-page.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/overview-page/overview-page.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./overview-page.component.scss */ "./src/app/components/overview-page/overview-page.component.scss")).default]
+    })
+], OverviewPageComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/reviews/reviews.component.scss":
+/*!***********************************************************!*\
+  !*** ./src/app/components/reviews/reviews.component.scss ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("");
+
+/***/ }),
+
+/***/ "./src/app/components/reviews/reviews.component.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/components/reviews/reviews.component.ts ***!
+  \*********************************************************/
+/*! exports provided: ReviewsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReviewsComponent", function() { return ReviewsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/ajax */ "./node_modules/rxjs/_esm2015/ajax/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
+
+
+
+let ReviewsComponent = class ReviewsComponent {
+    ngOnInit() {
+        this.reviews$ = rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/movie/${this.movieId}/reviews`)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((data) => data.results));
+    }
+};
+ReviewsComponent.propDecorators = {
+    movieId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }]
+};
+ReviewsComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-reviews',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./reviews.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/reviews/reviews.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./reviews.component.scss */ "./src/app/components/reviews/reviews.component.scss")).default]
+    })
+], ReviewsComponent);
 
 
 
@@ -87172,44 +87416,257 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TopRatedComponent", function() { return TopRatedComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! querystring */ "./node_modules/querystring/index.js");
-/* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(querystring__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var rxjs_ajax__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/ajax */ "./node_modules/rxjs/_esm2015/ajax/index.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/ajax */ "./node_modules/rxjs/_esm2015/ajax/index.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 
 
 
 
 
-
-const qs = querystring__WEBPACK_IMPORTED_MODULE_1___default.a;
+// unfortunately top rated can NOT be sorted by release date
 let TopRatedComponent = class TopRatedComponent {
     constructor() {
-        this.page = 1;
+        this.MAX_ITEMS = 10;
     }
     ngOnInit() {
-        this.movies$ = this.download();
-    }
-    download(page = 1) {
-        return rxjs_ajax__WEBPACK_IMPORTED_MODULE_3__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].apiUrl}/movie/top_rated?` + qs.stringify({
-            sort_by: 'release_date',
-            page: this.page
-        })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])((data) => data.results));
-    }
-    onShowMoreClick() {
-        console.log(1);
+        this.movies$ = rxjs_ajax__WEBPACK_IMPORTED_MODULE_2__["ajax"].getJSON(`${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}/movie/top_rated`)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((data) => data.results.slice(0, this.MAX_ITEMS)));
     }
 };
-TopRatedComponent.ctorParameters = () => [];
 TopRatedComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-top-rated',
         template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./top-rated.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/top-rated/top-rated.component.html")).default,
         styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./top-rated.component.scss */ "./src/app/components/top-rated/top-rated.component.scss")).default]
     })
 ], TopRatedComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/watchlist-link/watchlist-link.component.scss":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/watchlist-link/watchlist-link.component.scss ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (":host {\n  display: block;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  float: right;\n  background-color: #fff;\n  padding: 5px;\n  margin: -10px -10px 0 0;\n  border-radius: 0 0 0 5px;\n}");
+
+/***/ }),
+
+/***/ "./src/app/components/watchlist-link/watchlist-link.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/watchlist-link/watchlist-link.component.ts ***!
+  \***********************************************************************/
+/*! exports provided: WatchlistLinkComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WatchlistLinkComponent", function() { return WatchlistLinkComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _services_watchlist_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/watchlist.service */ "./src/app/services/watchlist.service.ts");
+
+
+
+let WatchlistLinkComponent = class WatchlistLinkComponent {
+    constructor(watchlistService) {
+        this.watchlistService = watchlistService;
+        this.count = this.watchlistService.count;
+    }
+};
+WatchlistLinkComponent.ctorParameters = () => [
+    { type: _services_watchlist_service__WEBPACK_IMPORTED_MODULE_2__["WatchlistService"] }
+];
+WatchlistLinkComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-watchlist-link',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./watchlist-link.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-link/watchlist-link.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./watchlist-link.component.scss */ "./src/app/components/watchlist-link/watchlist-link.component.scss")).default]
+    })
+], WatchlistLinkComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/watchlist-page/watchlist-page.component.scss":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/watchlist-page/watchlist-page.component.scss ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("");
+
+/***/ }),
+
+/***/ "./src/app/components/watchlist-page/watchlist-page.component.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/watchlist-page/watchlist-page.component.ts ***!
+  \***********************************************************************/
+/*! exports provided: WatchlistPageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WatchlistPageComponent", function() { return WatchlistPageComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+
+
+let WatchlistPageComponent = class WatchlistPageComponent {
+};
+WatchlistPageComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-watchlist-page',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./watchlist-page.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/watchlist-page/watchlist-page.component.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./watchlist-page.component.scss */ "./src/app/components/watchlist-page/watchlist-page.component.scss")).default]
+    })
+], WatchlistPageComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/pipes/ng-for-number.pipe.ts":
+/*!*********************************************!*\
+  !*** ./src/app/pipes/ng-for-number.pipe.ts ***!
+  \*********************************************/
+/*! exports provided: NgForNumberPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgForNumberPipe", function() { return NgForNumberPipe; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+
+
+// allows *ngFor to act as a for loop, example usage:
+// `ngFor="let i of details.vote_average | ngForNumber"`
+let NgForNumberPipe = class NgForNumberPipe {
+    transform(value, ...args) {
+        const arr = [];
+        const l = parseInt(value, 10);
+        for (let i = 0; i < l; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
+};
+NgForNumberPipe = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Pipe"])({
+        name: 'ngForNumber'
+    })
+], NgForNumberPipe);
+
+
+
+/***/ }),
+
+/***/ "./src/app/pipes/text-ellipsis.pipe.ts":
+/*!*********************************************!*\
+  !*** ./src/app/pipes/text-ellipsis.pipe.ts ***!
+  \*********************************************/
+/*! exports provided: TextEllipsisPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextEllipsisPipe", function() { return TextEllipsisPipe; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+
+
+let TextEllipsisPipe = class TextEllipsisPipe {
+    transform(value, args) {
+        const limit = args.length > 0 ? parseInt(args[0], 10) : 20;
+        const trail = args.length > 1 ? args[1] : '...';
+        return value.length > limit ? value.substring(0, limit) + trail : value;
+    }
+};
+TextEllipsisPipe = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Pipe"])({
+        name: 'textEllipsis'
+    })
+], TextEllipsisPipe);
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/watchlist.service.ts":
+/*!***********************************************!*\
+  !*** ./src/app/services/watchlist.service.ts ***!
+  \***********************************************/
+/*! exports provided: WatchlistService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WatchlistService", function() { return WatchlistService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+
+
+
+let WatchlistService = class WatchlistService {
+    constructor() {
+        this.LS_KEY = 'watchlist';
+        this.list = [];
+        // or just use a behaviour subject with one big array...
+        // or use a proper store with proper access control, but we have NO TIME FOR THAT
+        this.idsAdded = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"]();
+        this.idsRemoved = new rxjs__WEBPACK_IMPORTED_MODULE_2__["ReplaySubject"]();
+        this.count = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](0);
+        this.idsAdded.subscribe(() => this.count.next(this.count.value + 1));
+        this.idsRemoved.subscribe(() => this.count.next(this.count.value - 1));
+        const stored = localStorage.getItem(this.LS_KEY) || '';
+        this.list = stored ? stored.split(',').map(n => parseInt(n, 10)) : [];
+        this.list.forEach(n => this.idsAdded.next(n));
+    }
+    registerListener(movieId, onChange) {
+        const subscriptions = [
+            this.idsAdded.subscribe(id => { if (id === movieId) {
+                onChange(true);
+            } }),
+            this.idsRemoved.subscribe(id => { if (id === movieId) {
+                onChange(false);
+            } })
+        ];
+        return () => subscriptions.forEach(sub => sub.unsubscribe());
+    }
+    addToWatchlist(movieId) {
+        this.idsAdded.next(movieId);
+        this.list = this.list.concat(movieId);
+        this.persist();
+    }
+    removeFromWatchlist(movieId) {
+        this.idsRemoved.next(movieId);
+        this.list = this.list.filter(n => n !== movieId);
+        this.persist();
+    }
+    persist() {
+        localStorage.setItem(this.LS_KEY, String(this.list));
+    }
+};
+WatchlistService.ctorParameters = () => [];
+WatchlistService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    })
+], WatchlistService);
 
 
 

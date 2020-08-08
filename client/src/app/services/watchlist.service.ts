@@ -25,7 +25,7 @@ export class WatchlistService {
   registerListener(movieId: number, onChange: (isAdded: boolean) => void) {
     const subscriptions = [
       this.idsAdded.subscribe(id => { if (id === movieId) { onChange(true); }}),
-      this.idsRemoved.subscribe(id => { if (id === movieId) { onChange(false); }}),
+      this.idsRemoved.subscribe(id => { if (id === movieId) { onChange(false); }})
     ];
     return () => subscriptions.forEach(sub => sub.unsubscribe());
   }

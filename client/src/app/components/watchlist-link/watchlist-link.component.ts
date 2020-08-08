@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WatchlistService } from '../../services/watchlist.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class WatchlistLinkComponent {
   count: BehaviorSubject<number>;
+
   constructor(
     private watchlistService: WatchlistService
   ) {

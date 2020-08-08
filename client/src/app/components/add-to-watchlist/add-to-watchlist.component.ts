@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { WatchlistService } from '../../services/watchlist.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-to-watchlist',

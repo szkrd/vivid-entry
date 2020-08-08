@@ -10,6 +10,10 @@ import { WatchlistLinkComponent } from './components/watchlist-link/watchlist-li
 import { OverviewPageComponent } from './components/overview-page/overview-page.component';
 import { WatchlistPageComponent } from './components/watchlist-page/watchlist-page.component';
 import { MovieDetailsPageComponent } from './components/movie-details-page/movie-details-page.component';
+import { NgForNumberPipe } from './pipes/ng-for-number.pipe';
+import { CastAndCrewComponent } from './components/cast-and-crew/cast-and-crew.component';
+import { ReviewsComponent } from './components/reviews/reviews.component';
+import { TextEllipsisPipe } from './pipes/text-ellipsis.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { MovieDetailsPageComponent } from './components/movie-details-page/movie
     WatchlistLinkComponent,
     OverviewPageComponent,
     WatchlistPageComponent,
-    MovieDetailsPageComponent
+    MovieDetailsPageComponent,
+    NgForNumberPipe,
+    CastAndCrewComponent,
+    ReviewsComponent,
+    TextEllipsisPipe
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { environment as env } from '../../../environments/environment';
+import { IDetails } from '../../types/movies';
 
 @Component({
   selector: 'app-movie-details-page',
@@ -11,6 +14,7 @@ export class MovieDetailsPageComponent implements OnInit, OnDestroy {
   id: number;
   title = '';
   routeChangeSubscription: Subscription;
+  details$: Observable<IDetails>;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -33,6 +37,6 @@ export class MovieDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getDetails() {
-    console.log('TODO', this.id);
+    this.details$ = ajax.getJSON(`${env.apiUrl}/movie/${this.id}`);
   }
 }

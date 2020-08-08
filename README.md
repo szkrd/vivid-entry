@@ -6,7 +6,9 @@ Client generated with [Angular CLI](https://github.com/angular/angular-cli) vers
 
 - client: `cd client`, then `npm start` for a [dev server](http://localhost:4200/).
 - server: `cd server`, then `ACCESS_TOKEN=token npm start`, you can also use `server/.env` for the env var.
-  The client expects the server to be at PORT 5050. 
+  The client expects the server to be at PORT **5050**.
+- should the server crash, resart it manually; this is a node http
+  proxy [bug](https://github.com/http-party/node-http-proxy/search?q=econnreset&type=Issues).
 
 ## caveats
 
@@ -34,8 +36,8 @@ Használható a [MoviesDB API](https://developers.themoviedb.org/3).
 1. [x] A felhasználó a főoldalon látja az összes új filmet
 2. [x] A felhasználó a főoldalon lefelé görgetve release date alapján látja a filmeket
 3. [x] A felhasználó el tud menteni “watch list”-et azokból a filmekből amelyeket meg szeretne nézni
-4. [ ] A felhasználó rákattinthat bármelyik filmre és tovább navigál a film oldalára (details page)
-5. [ ] Egy adott film oldalán a felhasználó látja a film részletes adatait: film leírás, rating, színészek, review-k.
+4. [x] A felhasználó rákattinthat bármelyik filmre és tovább navigál a film oldalára (details page)
+5. [x] Egy adott film oldalán a felhasználó látja a film részletes adatait: film leírás, rating, színészek, review-k.
 
 ### Bónusz feature-ök
 

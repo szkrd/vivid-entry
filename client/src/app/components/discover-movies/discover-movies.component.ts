@@ -35,5 +35,5 @@ export class DiscoverMoviesComponent implements OnInit {
   onShowMoreClick = () => {
     this.page++;
     this.download();
-  };
+  }
 }
