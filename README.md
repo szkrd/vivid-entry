@@ -7,7 +7,7 @@ Client generated with [Angular CLI](https://github.com/angular/angular-cli) vers
 - client: `cd client`, then `npm start` for a [dev server](http://localhost:4200/).
 - server: `cd server`, then `ACCESS_TOKEN=token npm start`, you can also use `server/.env` for the env var.
   The client expects the server to be at PORT **5050**.
-- should the server crash, resart it manually; this is a node http
+- should the server crash, restart it manually; this is a node http
   proxy [bug](https://github.com/http-party/node-http-proxy/search?q=econnreset&type=Issues).
 
 ## caveats
