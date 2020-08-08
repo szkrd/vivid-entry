@@ -18,6 +18,10 @@ Client generated with [Angular CLI](https://github.com/angular/angular-cli) vers
 - with bonus features, proper backend and auth, material UI or bootstrap, unit and integration tests
   I would say this can take roughly a week to finish
 
+## demo
+
+[screen-recording](./docs/demo-20200808_121421-lowres.mp4)
+
 ---
 
 Original description:
