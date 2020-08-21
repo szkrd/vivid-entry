@@ -5,6 +5,7 @@ function getUrl(pathName: string, queryParams?: Record<string, string>) {
   return API_URL + pathName + (qs ? `?${qs}` : '');
 }
 
+// probably rxjs ajax would be okay
 function getTopRatedMovies() {
   const MAX_ITEMS = 20;
   return fetch(getUrl('/movie/top_rated'))

@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import OverviewPage from './OverviewPage';
 import {createUseStyles} from 'react-jss';
+import WatchlistLink from './WatchlistLink';
 
 const useStyles = createUseStyles({
   component: {
@@ -20,6 +21,7 @@ function App() {
   return (
     <Router>
       <div className={classes.component}>
+        <WatchlistLink/>
         <Switch>
           <Route path="/"><OverviewPage/></Route>
         </Switch>
