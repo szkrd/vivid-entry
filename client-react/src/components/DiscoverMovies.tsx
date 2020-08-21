@@ -1,11 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {ITopRated} from '../../../client/src/app/types/movies';
 import apiService from '../services/apiService';
 import {Link} from 'react-router-dom';
 import AddToWatchlist from './AddToWatchlist';
 import {createUseStyles} from 'react-jss';
+import useObservable from '../hooks/useObservable';
 
 const useStyles = createUseStyles({
+  component: {
+    '& h2': { margin: 0, padding: '15px 0 5px 5px', fontSize: 20 },
+    '& ul, & li': { margin: 0, padding: 2, listStyle: 'none' }
+  },
   row: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -25,18 +30,18 @@ export default function DiscoverMovies() {
   const [movies, setMovies] = useState<ITopRated[]>([]);
   const [page, setPage] = useState<number>(1);
 
-  useEffect(() => {
-    apiService.getDiscoverableMovies(page).then(data => {
-      setMovies(movies.concat(data));
-    });
-    // eslint-disable-next-line
-  }, [page]); // do NOT add movies
+  const onMovies = (data: ITopRated[]) => {
+    setMovies(movies.concat(data));
+  };
 
   const onShowMoreClick = () => {
     setPage(page + 1);
   };
+
+  useObservable(() => apiService.discoverMovie(page), onMovies, [page]);
+
   return (
-    <div className="discover-movies-component">
+    <div className={classes.component}>
       <h2>Discover movies</h2>
       <ul>
         {movies.map((movie) => (

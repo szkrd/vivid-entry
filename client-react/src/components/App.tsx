@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import OverviewPage from './OverviewPage';
 import {createUseStyles} from 'react-jss';
 import WatchlistLink from './WatchlistLink';
+import WatchlistPage from './WatchlistPage';
+import MovieDetailsPage from './MovieDetailsPage';
 
 const useStyles = createUseStyles({
   component: {
@@ -23,6 +25,8 @@ function App() {
       <div className={classes.component}>
         <WatchlistLink/>
         <Switch>
+          <Route path="/watchlist"><WatchlistPage/></Route>
+          <Route path="/movie/:id"><MovieDetailsPage/></Route>
           <Route path="/"><OverviewPage/></Route>
         </Switch>
       </div>

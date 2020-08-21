@@ -1,24 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import apiService from '../services/apiService';
 import {createUseStyles} from 'react-jss';
 import {Link} from 'react-router-dom';
 import {IDiscovery} from '../../../client/src/app/types/movies';
+import useObservable from '../hooks/useObservable';
 
 const useStyles = createUseStyles({
   component: {
-    maxWidth: 400,
-    border: '1px solid gray',
-    borderRadius: 5,
-    boxShadow: '0 0 5px rgba(0,0,0,.3)'
+    '& h2': { margin: 0, padding: '2px 0 5px 5px', fontSize: 20 },
+    '& ul, & li': { margin: 0, padding: 2, listStyle: 'none' }
   }
 });
 
 export default function TopRated() {
   const classes = useStyles();
   const [movies, setMovies] = useState<IDiscovery[]>([]);
-  useEffect(() => {
-    apiService.getTopRatedMovies().then(setMovies);
-  }, []);
+
+  useObservable(() => apiService.getTopRatedMovies(), setMovies);
+
   return (
     <div className={classes.component}>
       <h2>Top movies of all time</h2>

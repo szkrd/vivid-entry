@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import watchlistService, {WatchlistChangedEvent} from '../services/watchlistService';
+import watchlistService from '../services/watchlistService';
+import useObservable from '../hooks/useObservable';
 
 interface IProps {
   movieId?: number
@@ -8,14 +9,10 @@ interface IProps {
 export default function AddToWatchlist(props: IProps) {
   const movieId = props.movieId || 0;
   const [isAdded, setIsAdded] = useState<boolean>(false);
-  const [watchlistIds, setWatchlistIds] = useState<number[]>(watchlistService.getList());
+  const [list, setList] = useState<number[]>([]);
 
-  useEffect(() => WatchlistChangedEvent
-    .subscribe((data) => setWatchlistIds(data.list)), []);
-
-  useEffect(() => {
-    setIsAdded(watchlistIds.includes(movieId));
-  }, [watchlistIds, movieId]);
+  useObservable<number[]>(watchlistService.list$, setList);
+  useEffect(() => { setIsAdded(list.includes(movieId)); }, [list, movieId]);
 
   const onClick = () => {
     if (isAdded) {

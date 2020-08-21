@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {createUseStyles} from 'react-jss';
 import {Link} from 'react-router-dom';
-import watchlistService, {WatchlistChangedEvent} from '../services/watchlistService';
+import useObservable from '../hooks/useObservable';
+import watchlistService from '../services/watchlistService';
 
 const useStyles = createUseStyles({
   component: {
@@ -18,10 +19,8 @@ const useStyles = createUseStyles({
 
 export default function WatchlistLink() {
   const classes = useStyles();
-  const [count, setCount] = useState<number>(watchlistService.getCount());
-
-  useEffect(() => WatchlistChangedEvent
-    .subscribe((data) => setCount(data.list.length)), []);
+  const [count, setCount] = useState<number>(0);
+  useObservable<number>(watchlistService.count$, setCount);
 
   return (
     <div className={classes.component}>

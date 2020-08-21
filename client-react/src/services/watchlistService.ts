@@ -1,59 +1,44 @@
-import eventBusService from './eventBusService';
+import { BehaviorSubject } from 'rxjs';
 
-const LS_KEY = 'watchlist';
-let list: number[] = [];
+class WatchlistService {
+  private LS_KEY = 'watchlist';
+  #list$ = new BehaviorSubject<number[]>([]);
 
-// probably an rx behaviour subject would've been nicer
-interface IWatchlistChangedEventPayload { list: number[] }
-export class WatchlistChangedEvent {
-  constructor(payload: IWatchlistChangedEventPayload) {
-    eventBusService.emit('WatchlistChangedEvent', payload)
+  // technically if you mess up the list$, the internal implementation
+  // will still remain intact (not that it would matter to the rest of
+  // the subscribers... the angular version overcomes this by using
+  // register listeners, but that's mor complicated)
+  public list$ = new BehaviorSubject<number[]>([]);
+  public count$ = new BehaviorSubject<number>(0);
+
+  constructor() {
+    const stored = localStorage.getItem(this.LS_KEY) || '';
+    this.#list$.subscribe(value => {
+      this.list$.next(value);
+      this.count$.next(value.length);
+    });
+    this.#list$.next(stored ? stored.split(',').map(n => parseInt(n, 10)) : []);
   }
-  static subscribe = (cb: (payload: IWatchlistChangedEventPayload) => void) =>
-    eventBusService.subscribe('WatchlistChangedEvent', cb);
+
+  addToWatchlist(movieId: number) {
+    this.#list$.next(this.#list$.getValue().concat(movieId));
+    this.persist();
+  }
+
+  removeFromWatchlist(movieId: number) {
+    this.#list$.next(this.#list$.getValue().filter(n => n !== movieId));
+    this.persist();
+  }
+
+  reset() {
+    this.#list$.next([]);
+    localStorage.removeItem(this.LS_KEY);
+  }
+
+  private persist() {
+    localStorage.setItem(this.LS_KEY, String(this.#list$.getValue()));
+  }
 }
 
-// ---
-
-function init() {
-  list = (localStorage.getItem(LS_KEY) || '').split(',').filter(x => x).map(i => parseInt(i, 10));
-}
-
-function onListChange() {
-  localStorage.setItem(LS_KEY, String(list));
-  new WatchlistChangedEvent({ list });
-}
-
-function addToWatchlist(movieId: number) {
-  list = list.concat(movieId);
-  onListChange();
-}
-
-function removeFromWatchlist(movieId: number) {
-  list = list.filter(n => n !== movieId);
-  onListChange();
-}
-
-function reset() {
-  list = [];
-  localStorage.removeItem(LS_KEY);
-}
-
-function getList() {
-  return list.slice();
-}
-
-function getCount() {
-  return list.length;
-}
-
-const watchlistService = {
-  init,
-  getCount,
-  getList,
-  addToWatchlist,
-  removeFromWatchlist,
-  reset
-};
-
+const watchlistService = new WatchlistService()
 export default watchlistService;
