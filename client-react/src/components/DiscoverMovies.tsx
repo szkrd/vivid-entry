@@ -31,7 +31,7 @@ export default function DiscoverMovies() {
   const [page, setPage] = useState<number>(1);
 
   const onMovies = (data: ITopRated[]) => {
-    setMovies(movies.concat(data));
+    setMovies(data ? movies.concat(data) : movies);
   };
 
   const onShowMoreClick = () => {
@@ -43,19 +43,21 @@ export default function DiscoverMovies() {
   return (
     <div className={classes.component}>
       <h2>Discover movies</h2>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id} className={classes.row}>
-            <Link to={`/movie/${movie.id}`}>
-              {movie.release_date} {movie.title}
-            </Link>
-            <AddToWatchlist movieId={movie.id}/>
+      {movies.length > 0 && (
+        <ul>
+          {movies.map((movie) => (
+            <li key={movie.id} className={classes.row}>
+              <Link to={`/movie/${movie.id}`}>
+                {movie.release_date} {movie.title}
+              </Link>
+              <AddToWatchlist movieId={movie.id}/>
+            </li>
+          ))}
+          <li>
+            <button onClick={onShowMoreClick}>Show more</button>
           </li>
-        ))}
-        <li>
-          <button onClick={onShowMoreClick}>Show more</button>
-        </li>
-      </ul>
+        </ul>
+      )}
     </div>
   );
 }

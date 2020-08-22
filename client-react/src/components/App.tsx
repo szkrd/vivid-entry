@@ -5,6 +5,8 @@ import {createUseStyles} from 'react-jss';
 import WatchlistLink from './WatchlistLink';
 import WatchlistPage from './WatchlistPage';
 import MovieDetailsPage from './MovieDetailsPage';
+import AjaxLoader from './AjaxLoader';
+import ErrorNotification from './ErrorNotification';
 
 const useStyles = createUseStyles({
   component: {
@@ -23,6 +25,8 @@ function App() {
   return (
     <Router>
       <div className={classes.component}>
+        <ErrorNotification/>
+        <AjaxLoader/>
         <WatchlistLink/>
         <Switch>
           <Route path="/watchlist"><WatchlistPage/></Route>

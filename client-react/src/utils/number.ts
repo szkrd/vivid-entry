@@ -13,5 +13,5 @@ export const range = (val: any): number[] => {
   return ret;
 };
 
-const number = { gt, num, range };
-export default number;
+const numberUtils = { gt, num, range };
+export default numberUtils;
