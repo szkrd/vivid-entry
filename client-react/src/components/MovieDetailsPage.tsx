@@ -7,6 +7,7 @@ import {IDetails} from '../../../client/src/app/types/movies';
 import {gt, num, range} from '../utils/number';
 import CastAndCrew from './CastAndCrew';
 import Reviews from './Reviews';
+import AddToWatchlist from './AddToWatchlist';
 
 interface IPageUrlParams {
   id?: string;
@@ -23,6 +24,7 @@ export default function MovieDetailsPage() {
         <>
           <h1>{details.title}</h1>
           <aside>{details.overview}</aside>
+          <AddToWatchlist movieId={id}/>
           {gt(details.vote_count, 0) && (
             <p>
               <strong>Score:</strong>

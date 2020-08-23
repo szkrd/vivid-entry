@@ -1,7 +1,7 @@
 import { ICredits } from '../../../client/src/app/types/people';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { IDetails, IDiscovery, IReview, ITopRated } from '../../../client/src/app/types/movies';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { call, getUrl } from '../utils/ajax';
 
 class ApiService {
@@ -22,6 +22,16 @@ class ApiService {
   // for details
   getMovieDetails(movieId: number): Observable<IDetails> {
     return call.get(getUrl(`/movie/${movieId}`));
+  }
+
+  // for watchlist (one by one, to decrease load on the server)
+  getMovieDetailsOneByOne(movieIds: number[], max = 20, page = 0): Observable<IDetails> {
+    const CONCURRENT_CALLS = 3;
+    const ids = movieIds.length > max ? movieIds.slice(page * max, page * max + max) : movieIds;
+    const urls = ids.map(id => getUrl(`/movie/${id}`));
+    return from(urls).pipe(
+      mergeMap(call.get, CONCURRENT_CALLS)
+    ) as Observable<IDetails>;
   }
 
   // for reviews
